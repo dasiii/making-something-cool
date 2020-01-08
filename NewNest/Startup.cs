@@ -29,8 +29,9 @@ namespace NewNest
 
             var newNestContext = new NewNestContext(config.MongoDB);
 
-            var repo = new NewNestRepository(newNestContext);
-            services.AddSingleton<INewNestRepository>(repo);
+            var personRepository = new PersonRepository(newNestContext);
+
+            services.AddSingleton<INewNestRepository<Person>>(personRepository);
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -68,7 +69,7 @@ namespace NewNest
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "../NewNestClient";
 
                 if (env.IsDevelopment())
                 {
